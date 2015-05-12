@@ -30,7 +30,7 @@ class SuperText(QtWidgets.QTextEdit):
         for num_id, num in enumerate(self.numbers):
             doc = doc.replace('$' + str(num_id) + '$', '%d' % (num))
         self.setHtml(doc)
-        self.setTextCursor(cur)
+        self.setTextCursor(cur) 
 
     def generate_template(self):
         content = str(self.toPlainText())
