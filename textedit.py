@@ -38,12 +38,16 @@ class SuperText(QtWidgets.QTextEdit):
         return QtCore.QDateTime.currentDateTime().toString(QtCore.Qt.ISODate)
 
     def on_text_changed(self):
-        # Number_of_keystroke / time_in_second * 60 * percentages_of_accurate_word
         self.keyPressedTimestamps.append(datetime.datetime.now())
         keyPressedArrayLength = len(self.keyPressedTimestamps)
         timeDifference = self.keyPressedTimestamps[keyPressedArrayLength-1] - self.keyPressedTimestamps[keyPressedArrayLength-2]
         timeDifferenceInMs = timeDifference.seconds*1000 + timeDifference.microseconds/1000
-        print(timeDifferenceInMs)
+        keystrokesPerSecond = 1000/timeDifferenceInMs
+        # CPM
+        keystrokesPerMinute = keystrokesPerSecond * 60
+        # WPM
+        wordsPerMinute = keystrokesPerMinute/5
+        print(wordsPerMinute)
 
     def change_value(self, val_id, amount):
         self.numbers[int(str(val_id))] += amount / 120
