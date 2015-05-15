@@ -48,6 +48,7 @@ class TextEntry(QtWidgets.QTextEdit):
         # CPM
         keystrokesPerMinute = keystrokesPerSecond * 60
         # WPM
+        # Test: hallo Patrick
         wordsPerMinute = keystrokesPerMinute/5
         print(wordsPerMinute)
 
