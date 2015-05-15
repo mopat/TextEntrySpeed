@@ -109,6 +109,8 @@ class SpeedWidget(QtWidgets.QWidget):
         self.setGeometry(300, 300, 250, 150)
         self.setWindowTitle('Signal & slot')
 
+        self.show()
+
 
 if __name__ == '__main__':
     main()
