@@ -79,14 +79,16 @@ class TextEntry(QtWidgets.QTextEdit):
 def main():
     app = QtWidgets.QApplication(sys.argv)
     text_entry = TextEntry("")
+    speed_widget = SpeedWidget(text_entry)
     sys.exit(app.exec_())
 
 
 
-class SpeedWidget(QWidget):
+class SpeedWidget(QtWidgets.QWidget):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, text_entry):
+        super(SpeedWidget, self).__init__()
+        self.text_entry = text_entry
         # not working
         print ("init widget")
         self.initUI()
@@ -110,6 +112,6 @@ class SpeedWidget(QWidget):
 
 if __name__ == '__main__':
     main()
-    textEntry = TextEntry()
-    speedWidget = SpeedWidget()
-    sys.exit(app.exec_())
+    #textEntry = TextEntry()
+    #speedWidget = SpeedWidget()
+    #sys.exit(app.exec_())
