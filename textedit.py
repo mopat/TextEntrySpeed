@@ -12,8 +12,9 @@ from PyQt5.QtWidgets import (QLCDNumber, QSlider,
 
 
 class TextEntry(QtWidgets.QTextEdit):
-    def __init__(self, example_text):
+    def __init__(self, example_text, speed_widget):
         super(TextEntry, self).__init__()
+        self.speed_widget = speed_widget
         self.numbers = []
         self.template_doc = ""
         self.setHtml(example_text)
@@ -50,9 +51,13 @@ class TextEntry(QtWidgets.QTextEdit):
             # CPM
             keystrokesPerMinute = keystrokesPerSecond * 60
             # WPM
-            # Test: hallo Patrick
             wordsPerMinute = keystrokesPerMinute / 5
             print(wordsPerMinute)
+            self.speed_widget.setValues(wordsPerMinute)
+
+    def getCurrentValue(self, value):
+        currentValue = value
+        return currentValue
 
     def change_value(self, val_id, amount):
         self.numbers[int(str(val_id))] += amount / 120
@@ -81,36 +86,35 @@ class TextEntry(QtWidgets.QTextEdit):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    text_entry = TextEntry("")
-    speed_widget = SpeedWidget(text_entry)
+    speed_widget = SpeedWidget()
+    text_entry = TextEntry("", speed_widget)
+
     sys.exit(app.exec_())
 
 
 class SpeedWidget(QtWidgets.QWidget):
-    def __init__(self, text_entry):
+    def __init__(self):
         super(SpeedWidget, self).__init__()
-        self.text_entry = text_entry
-        # not working
+
         print ("init widget")
         self.initUI()
 
 
+
     def initUI(self):
-        lcd = QLCDNumber(self)
-        sld = QSlider(Qt.Horizontal, self)
-
+        self.lcd = QLCDNumber(self)
         vbox = QVBoxLayout()
-        vbox.addWidget(lcd)
-        vbox.addWidget(sld)
-
+        vbox.addWidget(self.lcd)
         self.setLayout(vbox)
-        sld.valueChanged.connect(lcd.display)
-
         self.setGeometry(300, 300, 250, 150)
-        self.setWindowTitle('Current Entry Speed')
-
+        self.setWindowTitle('Words per Minute')
+        self.value = 0
         self.show()
 
+    def setValues(self, value):
+        currentValue = int(value)
+        self.value = currentValue
+        self.lcd.display(self.value)
 
 if __name__ == '__main__':
     main()
