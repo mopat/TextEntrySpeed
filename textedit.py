@@ -4,14 +4,16 @@
 
 import sys
 from PyQt5 import QtGui, QtCore, QtWidgets
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal, Qt
+from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
+    QVBoxLayout, QApplication)
 import datetime
 import re
 
-class SuperText(QtWidgets.QTextEdit):
+class TextEntry(QtWidgets.QTextEdit):
 
     def __init__(self, example_text):
-        super(SuperText, self).__init__()
+        super(TextEntry, self).__init__()
         self.numbers=[]
         self.template_doc = ""
         self.setHtml(example_text)
@@ -75,8 +77,37 @@ class SuperText(QtWidgets.QTextEdit):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    super_text = SuperText("")
+    text_entry = TextEntry("")
     sys.exit(app.exec_())
+
+
+
+class SpeedWidget(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        print ("HE")
+        self.initUI()
+
+
+    def initUI(self):
+
+        lcd = QLCDNumber(self)
+        sld = QSlider(Qt.Horizontal, self)
+
+        vbox = QVBoxLayout()
+        vbox.addWidget(lcd)
+        vbox.addWidget(sld)
+
+        self.setLayout(vbox)
+        sld.valueChanged.connect(lcd.display)
+
+        self.setGeometry(300, 300, 250, 150)
+        self.setWindowTitle('Signal & slot')
+
 
 if __name__ == '__main__':
     main()
+    textEntry = TextEntry()
+    speedWidget = SpeedWidget()
+    sys.exit(app.exec_())
