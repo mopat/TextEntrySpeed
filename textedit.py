@@ -86,7 +86,8 @@ class SpeedWidget(QWidget):
 
     def __init__(self):
         super().__init__()
-        print ("HE")
+        # not working
+        print ("init widget")
         self.initUI()
 
 
