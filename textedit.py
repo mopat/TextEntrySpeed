@@ -1,20 +1,20 @@
-
-#!/usr/bin/python
+# !/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt5 import QtGui, QtCore, QtWidgets
-from PyQt5.QtCore import QObject, pyqtSignal, Qt
-from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
-    QVBoxLayout, QApplication)
 import datetime
 import re
 
-class TextEntry(QtWidgets.QTextEdit):
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QLCDNumber, QSlider,
+                             QVBoxLayout)
 
+
+class TextEntry(QtWidgets.QTextEdit):
     def __init__(self, example_text):
         super(TextEntry, self).__init__()
-        self.numbers=[]
+        self.numbers = []
         self.template_doc = ""
         self.setHtml(example_text)
         self.prev_content = ""
@@ -24,7 +24,6 @@ class TextEntry(QtWidgets.QTextEdit):
 
         keyPressedTimestamps = []
         self.keyPressedTimestamps = keyPressedTimestamps
-        self.keyPressedTimestamps.append(datetime.datetime.now())
         # connect signal to slot
         self.textChanged.connect(self.on_text_changed)
 
@@ -40,17 +39,20 @@ class TextEntry(QtWidgets.QTextEdit):
         return QtCore.QDateTime.currentDateTime().toString(QtCore.Qt.ISODate)
 
     def on_text_changed(self):
+        print ("CHANGE")
         self.keyPressedTimestamps.append(datetime.datetime.now())
         keyPressedArrayLength = len(self.keyPressedTimestamps)
-        timeDifference = self.keyPressedTimestamps[keyPressedArrayLength-1] - self.keyPressedTimestamps[keyPressedArrayLength-2]
-        timeDifferenceInMs = timeDifference.seconds*1000 + timeDifference.microseconds/1000
-        keystrokesPerSecond = 1000/timeDifferenceInMs
-        # CPM
-        keystrokesPerMinute = keystrokesPerSecond * 60
-        # WPM
-        # Test: hallo Patrick
-        wordsPerMinute = keystrokesPerMinute/5
-        print(wordsPerMinute)
+        if (keyPressedArrayLength > 1):
+            timeDifference = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
+                keyPressedArrayLength - 2]
+            timeDifferenceInMs = timeDifference.seconds * 1000 + timeDifference.microseconds / 1000
+            keystrokesPerSecond = 1000 / timeDifferenceInMs
+            # CPM
+            keystrokesPerMinute = keystrokesPerSecond * 60
+            # WPM
+            # Test: hallo Patrick
+            wordsPerMinute = keystrokesPerMinute / 5
+            print(wordsPerMinute)
 
     def change_value(self, val_id, amount):
         self.numbers[int(str(val_id))] += amount / 120
@@ -73,8 +75,9 @@ class TextEntry(QtWidgets.QTextEdit):
             self.template_doc = content
             return
         for num_id in range(len(numbers)):
-            content = re.sub(" " + str(numbers[num_id])  , " <a href='%d'>$%d$</a>" % (num_id, num_id), content, count=1)
+            content = re.sub(" " + str(numbers[num_id]), " <a href='%d'>$%d$</a>" % (num_id, num_id), content, count=1)
         self.template_doc = content
+
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
@@ -83,9 +86,7 @@ def main():
     sys.exit(app.exec_())
 
 
-
 class SpeedWidget(QtWidgets.QWidget):
-
     def __init__(self, text_entry):
         super(SpeedWidget, self).__init__()
         self.text_entry = text_entry
@@ -95,7 +96,6 @@ class SpeedWidget(QtWidgets.QWidget):
 
 
     def initUI(self):
-
         lcd = QLCDNumber(self)
         sld = QSlider(Qt.Horizontal, self)
 
@@ -107,13 +107,10 @@ class SpeedWidget(QtWidgets.QWidget):
         sld.valueChanged.connect(lcd.display)
 
         self.setGeometry(300, 300, 250, 150)
-        self.setWindowTitle('Signal & slot')
+        self.setWindowTitle('Current Entry Speed')
 
         self.show()
 
 
 if __name__ == '__main__':
     main()
-    #textEntry = TextEntry()
-    #speedWidget = SpeedWidget()
-    #sys.exit(app.exec_())
