@@ -103,11 +103,7 @@ def main():
 class SpeedWidget(QtWidgets.QWidget):
     def __init__(self):
         super(SpeedWidget, self).__init__()
-
-        print ("init widget")
         self.initUI()
-
-
 
     def initUI(self):
         self.lcd = QLCDNumber(self)
