@@ -36,24 +36,32 @@ class TextEntry(QtWidgets.QTextEdit):
         self.setMouseTracking(True)
         self.show()
 
-    def timestamp(self):
-        return QtCore.QDateTime.currentDateTime().toString(QtCore.Qt.ISODate)
-
     def on_text_changed(self):
-        print ("CHANGE")
         self.keyPressedTimestamps.append(datetime.datetime.now())
+        self.start = self.keyPressedTimestamps[0]
         keyPressedArrayLength = len(self.keyPressedTimestamps)
         if (keyPressedArrayLength > 1):
-            timeDifference = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
-                keyPressedArrayLength - 2]
-            timeDifferenceInMs = timeDifference.seconds * 1000 + timeDifference.microseconds / 1000
-            keystrokesPerSecond = 1000 / timeDifferenceInMs
+            # complete speed
+            self.end = self.keyPressedTimestamps[keyPressedArrayLength - 1]
+            timeDifferenceComplete = self.end - self.start
+            timeDifferenceCompleteInMs = timeDifferenceComplete.seconds * 1000 + timeDifferenceComplete.microseconds / 1000
+            keystrokesPerSecondComplete =  len(self.keyPressedTimestamps) / (timeDifferenceCompleteInMs/1000)
+            # cpm
+            keystrokesPerMinuteComplete = keystrokesPerSecondComplete * 60
+            # wpm
+            wordsPerMinuteComplete = keystrokesPerMinuteComplete / 5
+
+
+            # timeDifferenceCurrent = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
+             #    keyPressedArrayLength - 2]
+            # timeDifferenceInMsCurrent = timeDifferenceCurrent.seconds * 1000 + timeDifferenceCurrent.microseconds / 1000
+            # keystrokesPerSecondCurrent = 1000 / timeDifferenceInMsCurrent
             # CPM
-            keystrokesPerMinute = keystrokesPerSecond * 60
+            # keystrokesPerMinuteCurrent = keystrokesPerSecondCurrent * 60
             # WPM
-            wordsPerMinute = keystrokesPerMinute / 5
-            print(wordsPerMinute)
-            self.speed_widget.setValues(wordsPerMinute)
+            # wordsPerMinuteCurrent = keystrokesPerMinuteCurrent / 5
+            # print(wordsPerMinute)
+            self.speed_widget.setValues(wordsPerMinuteComplete)
 
     def getCurrentValue(self, value):
         currentValue = value
@@ -111,10 +119,10 @@ class SpeedWidget(QtWidgets.QWidget):
         self.value = 0
         self.show()
 
-    def setValues(self, value):
-        currentValue = int(value)
-        self.value = currentValue
-        self.lcd.display(self.value)
+    def setValues(self, complete):
+        complete = int(complete)
+        self.complete = complete
+        self.lcd.display(self.complete)
 
 if __name__ == '__main__':
     main()
