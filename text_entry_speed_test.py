@@ -28,6 +28,12 @@ class TextEntry(QtWidgets.QTextEdit):
         # array to save the pressed keys timestamps
         keyPressedTimestamps = []
         self.keyPressedTimestamps = keyPressedTimestamps
+        # array for all wpms
+        allWPMs = []
+        self.allWPMs = allWPMs
+        # array for all CPMs
+        allCPMs = []
+        self.allCPMs = allCPMs
         # connect signal to slot
         self.textChanged.connect(self.onTextChanged)
         # header and row for csv array
@@ -37,15 +43,17 @@ class TextEntry(QtWidgets.QTextEdit):
 
     def initUI(self):
         self.setGeometry(0, 0, 400, 400)
-        self.setWindowTitle('TextEntrySpeed')
+        self.setWindowTitle('TextEntrySpeedTest')
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.setMouseTracking(True)
         self.show()
 
     def onTextChanged(self):
         self.keyPressedTimestamps.append(datetime.datetime.now())
         self.start = self.keyPressedTimestamps[0]
         keyPressedArrayLength = len(self.keyPressedTimestamps)
-        if (keyPressedArrayLength > 1):
+        # prevent outliers
+        if (keyPressedArrayLength > 2):
             # complete speed
             self.end = self.keyPressedTimestamps[keyPressedArrayLength - 1]
             timeDifferenceComplete = self.end - self.start
@@ -54,8 +62,12 @@ class TextEntry(QtWidgets.QTextEdit):
             keystrokesPerSecondComplete =  len(self.keyPressedTimestamps) / (timeDifferenceCompleteInMs/1000)
             # cpm
             keystrokesPerMinuteComplete = keystrokesPerSecondComplete * 60
+            # append current cpm to allCPMs
+            self.allCPMs.append(keystrokesPerMinuteComplete)
             # wpm
             wordsPerMinuteComplete = keystrokesPerMinuteComplete / 5
+            # append current wpm to allWPMs
+            self.allWPMs.append(wordsPerMinuteComplete)
             # the time difference between the last two keypresses
             timeDifferenceLastTwoKeyPresses = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
                keyPressedArrayLength - 2]
@@ -63,6 +75,7 @@ class TextEntry(QtWidgets.QTextEdit):
 
             self.logCounter = self.logCounter + 1
             self.writeLog(keystrokesPerMinuteComplete, wordsPerMinuteComplete, timeDifferenceLastTwoKeyPressesInMS)
+            self.speed_widget.setValues(wordsPerMinuteComplete)
 
     def change_value(self, val_id, amount):
         self.numbers[int(str(val_id))] += amount / 120
@@ -110,9 +123,17 @@ class TextEntry(QtWidgets.QTextEdit):
         # log wpm
         self.CSV_HEADER.append('wpm')
         self.row.append(wpm)
+        # log average wpm
+        averageWPM = sum(self.allWPMs) / float(len(self.allWPMs))
+        self.CSV_HEADER.append('average_wpm')
+        self.row.append(averageWPM)
         # log cpm
         self.CSV_HEADER.append('cpm')
         self.row.append(cpm)
+        # log average wpm
+        averageCPM = sum(self.allCPMs) / float(len(self.allCPMs))
+        self.CSV_HEADER.append('average_wpm')
+        self.row.append(averageCPM)
         # log number of pressed characters
         self.CSV_HEADER.append('num_chars')
         self.row.append(self.logCounter)
@@ -140,7 +161,6 @@ class TextEntry(QtWidgets.QTextEdit):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    # init speed widget
     speed_widget = SpeedWidget()
     text_entry = TextEntry("", speed_widget)
     sys.exit(app.exec_())
@@ -157,15 +177,14 @@ class SpeedWidget(QtWidgets.QWidget):
         vbox.addWidget(self.lcd)
         self.setLayout(vbox)
         self.setGeometry(300, 300, 250, 150)
-        self.setWindowTitle('Words per Minute')
+        self.setWindowTitle('WordspPerMinute')
         self.value = 0
         self.show()
 
     # set lcd display value
-    def setValues(self, complete):
-        complete = int(complete)
-        self.complete = complete
-        self.lcd.display(self.complete)
+    def setValues(self, wpm):
+        complete = int(wpm)
+        self.lcd.display(complete)
 
 if __name__ == '__main__':
     main()
