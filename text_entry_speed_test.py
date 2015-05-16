@@ -40,7 +40,6 @@ class TextEntry(QtWidgets.QTextEdit):
         self.CSV_HEADER = []
         self.row = []
 
-
     def initUI(self):
         self.setGeometry(0, 0, 400, 400)
         self.setWindowTitle('TextEntrySpeedTest')
@@ -59,7 +58,7 @@ class TextEntry(QtWidgets.QTextEdit):
             timeDifferenceComplete = self.end - self.start
             self.totalTime = timeDifferenceComplete
             timeDifferenceCompleteInMs = timeDifferenceComplete.seconds * 1000 + timeDifferenceComplete.microseconds / 1000
-            keystrokesPerSecondComplete =  len(self.keyPressedTimestamps) / (timeDifferenceCompleteInMs/1000)
+            keystrokesPerSecondComplete = len(self.keyPressedTimestamps) / (timeDifferenceCompleteInMs/1000)
             # cpm
             keystrokesPerMinuteComplete = keystrokesPerSecondComplete * 60
             # append current cpm to allCPMs
@@ -69,8 +68,7 @@ class TextEntry(QtWidgets.QTextEdit):
             # append current wpm to allWPMs
             self.allWPMs.append(wordsPerMinuteComplete)
             # the time difference between the last two keypresses
-            timeDifferenceLastTwoKeyPresses = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
-               keyPressedArrayLength - 2]
+            timeDifferenceLastTwoKeyPresses = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[keyPressedArrayLength - 2]
             timeDifferenceLastTwoKeyPressesInMS = timeDifferenceLastTwoKeyPresses.seconds * 1000 + timeDifferenceLastTwoKeyPresses.microseconds / 1000
 
             self.logCounter = self.logCounter + 1
@@ -149,7 +147,7 @@ class TextEntry(QtWidgets.QTextEdit):
         else:
             # create file
             with open(participantFileName, 'w', newline="") as participantFile:
-                participantFile.write('# Log created at ' + str(datetime.datetime.now())) # created at row
+                participantFile.write('# Log created at ' + str(datetime.datetime.now()))  # created at row
                 participantFile.write('\r\n')  # write new line
 
                 write = csv.writer(participantFile, delimiter=',')  # create csv write on file
