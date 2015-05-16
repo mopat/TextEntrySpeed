@@ -4,6 +4,8 @@
 import sys
 import datetime
 import re
+import os
+import csv
 
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import Qt
@@ -22,11 +24,14 @@ class TextEntry(QtWidgets.QTextEdit):
         self.generate_template()
         self.render_template()
         self.initUI()
-
+        self.logCounter = 0
         keyPressedTimestamps = []
         self.keyPressedTimestamps = keyPressedTimestamps
         # connect signal to slot
         self.textChanged.connect(self.on_text_changed)
+
+        self.CSV_HEADER = []
+        self.row = []
 
 
     def initUI(self):
@@ -51,7 +56,8 @@ class TextEntry(QtWidgets.QTextEdit):
             # wpm
             wordsPerMinuteComplete = keystrokesPerMinuteComplete / 5
 
-
+            self.logCounter = self.logCounter + 1
+            self.writeLog(keystrokesPerMinuteComplete, wordsPerMinuteComplete)
             # timeDifferenceCurrent = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
              #    keyPressedArrayLength - 2]
             # timeDifferenceInMsCurrent = timeDifferenceCurrent.seconds * 1000 + timeDifferenceCurrent.microseconds / 1000
@@ -62,10 +68,6 @@ class TextEntry(QtWidgets.QTextEdit):
             # wordsPerMinuteCurrent = keystrokesPerMinuteCurrent / 5
             # print(wordsPerMinute)
             self.speed_widget.setValues(wordsPerMinuteComplete)
-
-    def getCurrentValue(self, value):
-        currentValue = value
-        return currentValue
 
     def change_value(self, val_id, amount):
         self.numbers[int(str(val_id))] += amount / 120
@@ -90,6 +92,27 @@ class TextEntry(QtWidgets.QTextEdit):
         for num_id in range(len(numbers)):
             content = re.sub(" " + str(numbers[num_id]), " <a href='%d'>$%d$</a>" % (num_id, num_id), content, count=1)
         self.template_doc = content
+
+    def writeLog(self, kpm, wpm):
+        participant = "participant1"
+
+        wordsPerMinute = wpm
+        keystrokesPerMinute = kpm
+        print (self.logCounter)
+
+        self.CSV_HEADER.append('Timestamp')
+        self.row.append(self.keyPressedTimestamps[self.logCounter - 1])
+        self.CSV_HEADER.append('WPM')
+        self.row.append(wpm)
+        self.CSV_HEADER.append('KPM')
+        self.row.append(kpm)
+
+        # create file
+        print ("writing log")
+        with open(participant + '.csv', 'w', newline="") as participantFile:
+            write = csv.writer(participantFile, delimiter=',')  # create csv write on file
+            data = [self.CSV_HEADER, self.row]  # set data: header and row
+            write.writerows(data)  # write rows
 
 
 def main():
