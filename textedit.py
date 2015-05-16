@@ -95,10 +95,8 @@ class TextEntry(QtWidgets.QTextEdit):
 
     def writeLog(self, kpm, wpm):
         participant = "participant1"
-
         wordsPerMinute = wpm
         keystrokesPerMinute = kpm
-        print (self.logCounter)
 
         self.CSV_HEADER.append('Timestamp')
         self.row.append(self.keyPressedTimestamps[self.logCounter - 1])
