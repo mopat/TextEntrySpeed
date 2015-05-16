@@ -25,11 +25,12 @@ class TextEntry(QtWidgets.QTextEdit):
         self.render_template()
         self.initUI()
         self.logCounter = 0
+        # array to save the pressed keys timestamps
         keyPressedTimestamps = []
         self.keyPressedTimestamps = keyPressedTimestamps
         # connect signal to slot
-        self.textChanged.connect(self.on_text_changed)
-
+        self.textChanged.connect(self.onTextChanged)
+        # header and row for csv array
         self.CSV_HEADER = []
         self.row = []
 
@@ -38,10 +39,9 @@ class TextEntry(QtWidgets.QTextEdit):
         self.setGeometry(0, 0, 400, 400)
         self.setWindowTitle('TextEntrySpeed')
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.setMouseTracking(True)
         self.show()
 
-    def on_text_changed(self):
+    def onTextChanged(self):
         self.keyPressedTimestamps.append(datetime.datetime.now())
         self.start = self.keyPressedTimestamps[0]
         keyPressedArrayLength = len(self.keyPressedTimestamps)
@@ -49,25 +49,20 @@ class TextEntry(QtWidgets.QTextEdit):
             # complete speed
             self.end = self.keyPressedTimestamps[keyPressedArrayLength - 1]
             timeDifferenceComplete = self.end - self.start
+            self.totalTime = timeDifferenceComplete
             timeDifferenceCompleteInMs = timeDifferenceComplete.seconds * 1000 + timeDifferenceComplete.microseconds / 1000
             keystrokesPerSecondComplete =  len(self.keyPressedTimestamps) / (timeDifferenceCompleteInMs/1000)
             # cpm
             keystrokesPerMinuteComplete = keystrokesPerSecondComplete * 60
             # wpm
             wordsPerMinuteComplete = keystrokesPerMinuteComplete / 5
+            # the time difference between the last two keypresses
+            timeDifferenceLastTwoKeyPresses = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
+               keyPressedArrayLength - 2]
+            timeDifferenceLastTwoKeyPressesInMS = timeDifferenceLastTwoKeyPresses.seconds * 1000 + timeDifferenceLastTwoKeyPresses.microseconds / 1000
 
             self.logCounter = self.logCounter + 1
-            self.writeLog(keystrokesPerMinuteComplete, wordsPerMinuteComplete)
-            # timeDifferenceCurrent = self.keyPressedTimestamps[keyPressedArrayLength - 1] - self.keyPressedTimestamps[
-             #    keyPressedArrayLength - 2]
-            # timeDifferenceInMsCurrent = timeDifferenceCurrent.seconds * 1000 + timeDifferenceCurrent.microseconds / 1000
-            # keystrokesPerSecondCurrent = 1000 / timeDifferenceInMsCurrent
-            # CPM
-            # keystrokesPerMinuteCurrent = keystrokesPerSecondCurrent * 60
-            # WPM
-            # wordsPerMinuteCurrent = keystrokesPerMinuteCurrent / 5
-            # print(wordsPerMinute)
-            self.speed_widget.setValues(wordsPerMinuteComplete)
+            self.writeLog(keystrokesPerMinuteComplete, wordsPerMinuteComplete, timeDifferenceLastTwoKeyPressesInMS)
 
     def change_value(self, val_id, amount):
         self.numbers[int(str(val_id))] += amount / 120
@@ -93,31 +88,61 @@ class TextEntry(QtWidgets.QTextEdit):
             content = re.sub(" " + str(numbers[num_id]), " <a href='%d'>$%d$</a>" % (num_id, num_id), content, count=1)
         self.template_doc = content
 
-    def writeLog(self, kpm, wpm):
-        participant = "participant1"
-        wordsPerMinute = wpm
-        keystrokesPerMinute = kpm
-
-        self.CSV_HEADER.append('Timestamp')
+    def writeLog(self, cpm, wpm, timeDifferenceLastTwoKeyPresses):
+        participantNumber = 1
+        participantFileName = 'participant' + str(participantNumber) + '.csv'
+        # log text
+        self.CSV_HEADER.append('registered_text')
+        self.row.append(str(self.toPlainText()).replace("\n", "").replace("\t", "").replace("\r", ""))  # replace new line, tabs and new rows from csv row
+        # log pressed key
+        pressedKey = str(self.toPlainText())[len(self.toPlainText()) - 1].replace("\n", "").replace("\t", "").replace("\r", "")  # replace new line, tabs and new rows from csv row
+        self.CSV_HEADER.append('pressed_key')
+        self.row.append(pressedKey)
+        # log timestamps
+        self.CSV_HEADER.append('timestamp')
         self.row.append(self.keyPressedTimestamps[self.logCounter - 1])
-        self.CSV_HEADER.append('WPM')
+        # log total time
+        self.CSV_HEADER.append('total_time')
+        self.row.append(self.totalTime)
+        # log time difference between last two key presses
+        self.CSV_HEADER.append('time_difference')
+        self.row.append(timeDifferenceLastTwoKeyPresses)
+        # log wpm
+        self.CSV_HEADER.append('wpm')
         self.row.append(wpm)
-        self.CSV_HEADER.append('KPM')
-        self.row.append(kpm)
+        # log cpm
+        self.CSV_HEADER.append('cpm')
+        self.row.append(cpm)
+        # log number of pressed characters
+        self.CSV_HEADER.append('num_chars')
+        self.row.append(self.logCounter)
 
-        # create file
-        print ("writing log")
-        with open(participant + '.csv', 'w', newline="") as participantFile:
-            write = csv.writer(participantFile, delimiter=',')  # create csv write on file
-            data = [self.CSV_HEADER, self.row]  # set data: header and row
-            write.writerows(data)  # write rows
+        if os.path.isfile(participantFileName):
+            # convert list to string
+            convertedRow = ','.join(map(str, self.row))
+            participantFile = open(participantFileName, 'a', newline="")  # open file in append mode
+            participantFile.write(convertedRow)  # write row to csv
+            participantFile.write('\r\n')  # write new line
+            participantFile.close()  # close file
+        # if participant file not exists
+        else:
+            # create file
+            with open(participantFileName, 'w', newline="") as participantFile:
+                participantFile.write('# Log created at ' + str(datetime.datetime.now())) # created at row
+                participantFile.write('\r\n')  # write new line
+
+                write = csv.writer(participantFile, delimiter=',')  # create csv write on file
+                data = [self.CSV_HEADER, self.row]  # set data: header and row
+                write.writerows(data)  # write rows
+        self.CSV_HEADER = []  # reset CSV header
+        self.row = []  # reset row
 
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    # init speed widget
     speed_widget = SpeedWidget()
     text_entry = TextEntry("", speed_widget)
-
     sys.exit(app.exec_())
 
 
@@ -136,6 +161,7 @@ class SpeedWidget(QtWidgets.QWidget):
         self.value = 0
         self.show()
 
+    # set lcd display value
     def setValues(self, complete):
         complete = int(complete)
         self.complete = complete
