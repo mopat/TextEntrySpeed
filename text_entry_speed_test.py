@@ -49,6 +49,7 @@ class TextEntry(QtWidgets.QTextEdit):
         self.setMouseTracking(True)
         self.show()
 
+    # slot for text changed signal
     def onTextChanged(self):
         self.keyPressedTimestamps.append(datetime.datetime.now())
         self.start = self.keyPressedTimestamps[0]
