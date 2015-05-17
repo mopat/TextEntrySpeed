@@ -102,8 +102,9 @@ class TextEntry(QtWidgets.QTextEdit):
             content = re.sub(" " + str(numbers[num_id]), " <a href='%d'>$%d$</a>" % (num_id, num_id), content, count=1)
         self.template_doc = content
 
+    # write log
     def writeLog(self, cpm, wpm, timeDifferenceLastTwoKeyPresses):
-        participantNumber = 1
+        participantNumber = 1  # change when next participant makes speed test
         participantFileName = 'participant' + str(participantNumber) + '.csv'
         # log text
         self.CSV_HEADER.append('registered_text')
