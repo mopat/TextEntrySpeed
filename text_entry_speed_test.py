@@ -24,10 +24,12 @@ class TextEntry(QtWidgets.QTextEdit):
         self.generate_template()
         self.render_template()
         self.initUI()
+        # count log rows
         self.logCounter = 0
         # array to save the pressed keys timestamps
         keyPressedTimestamps = []
         self.keyPressedTimestamps = keyPressedTimestamps
+        self.keyPressedTimestamps.append(datetime.datetime.now())
         # array for all wpms
         allWPMs = []
         self.allWPMs = allWPMs
@@ -52,7 +54,7 @@ class TextEntry(QtWidgets.QTextEdit):
         self.start = self.keyPressedTimestamps[0]
         keyPressedArrayLength = len(self.keyPressedTimestamps)
         # prevent outliers
-        if (keyPressedArrayLength > 2):
+        if (keyPressedArrayLength > 0):
             # complete speed
             self.end = self.keyPressedTimestamps[keyPressedArrayLength - 1]
             timeDifferenceComplete = self.end - self.start
