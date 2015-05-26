@@ -1,0 +1,2 @@
+The performance of which type of user can be predicted by KLM, according to Card et al.?
+According to Card et al. KLM can predict the performance of expert users, because the performance must be error-free and the task must be routine.
