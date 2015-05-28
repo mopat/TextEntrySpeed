@@ -454,6 +454,7 @@ class CalcDlg(QtWidgets.QWidget):
     def textEntry(self, ch):
         """Searches for button match from text entry.
         """
+        #test
         if not ch:
             return False
         if ord(ch) == 8:   # backspace key

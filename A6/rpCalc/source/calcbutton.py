@@ -31,6 +31,7 @@ class CalcButton(QtWidgets.QPushButton):
     def clickEvent(self):
         """Emits signal with button text.
         """
+        #test
         timeStamp = datetime.now()
         WriteLog.buttonpress(self, timeStamp, self.text())
         self.activated.emit(self.text())
