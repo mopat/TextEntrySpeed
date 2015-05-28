@@ -466,7 +466,7 @@ class CalcDlg(QtWidgets.QWidget):
                     key.startswith(self.entryStr.upper())]
             if len(cmds) == 1:
                 button = self.cmdDict[cmds[0]]
-                button.clickEvent()
+                button.clickEvent("K")
                 button.tmpDown(300)
                 self.entryStr = ''
             else:
@@ -479,7 +479,7 @@ class CalcDlg(QtWidgets.QWidget):
                 newStr = 'EXIT'
             button = self.cmdDict.get(newStr.lstrip(':'))
             if button:
-                button.clickEvent()
+                button.clickEvent("K")
                 button.tmpDown(300)
                 self.entryStr = ''
             else:
@@ -497,9 +497,10 @@ class CalcDlg(QtWidgets.QWidget):
         """
         timeStamp = datetime.now()
         WriteLog.keystroke(timeStamp, keyEvent.text())
+
         button = self.mainDict.get(keyEvent.key())
         if not self.entryStr and button:
-            button.clickEvent()
+            button.clickEvent("K")
             button.setDown(True)
             return
         letter = str(keyEvent.text()).upper()
@@ -522,7 +523,7 @@ class CalcDlg(QtWidgets.QWidget):
             self.altBaseView.setCodedBase(letter, True)
         elif not self.entryStr and keyEvent.key() == QtCore.Qt.Key_Backspace:
             button = self.cmdDict['<-']
-            button.clickEvent()
+            button.clickEvent("K")
             button.tmpDown(300)
         elif not self.entryStr and keyEvent.key() == QtCore.Qt.Key_Escape:
             self.popupMenu.popup(self.mapToGlobal(QtCore.QPoint(0, 0)))

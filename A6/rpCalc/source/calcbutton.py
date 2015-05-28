@@ -28,12 +28,13 @@ class CalcButton(QtWidgets.QPushButton):
         self.setFocusPolicy(QtCore.Qt.NoFocus)
         self.clicked.connect(self.clickEvent)
 
-    def clickEvent(self):
+    def clickEvent(self, origin):
         """Emits signal with button text.
         """
-        #test
-        timeStamp = datetime.now()
-        WriteLog.buttonpress(timeStamp, self.text())
+        # prevent logging when key is pressed
+        if(origin != "K"):
+            timeStamp = datetime.now()
+            WriteLog.buttonpress(timeStamp, self.text())
         self.activated.emit(self.text())
 
     def sizeHint(self):
