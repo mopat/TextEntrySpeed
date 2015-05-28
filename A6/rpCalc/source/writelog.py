@@ -4,6 +4,7 @@
 import sys
 import csv
 import datetime
+import os
 
 class WriteLog:
 
@@ -14,12 +15,35 @@ class WriteLog:
     def keystroke(self, timeStamp, key):
         print ("key:" + key)
         print (timeStamp)
+        print (timeStamp, key)
+        WriteLog.writeInCSV(timeStamp, key, "K")
         #ölol
 
     def buttonpress(self, timeStamp, button):
 
         print ("button:" + button)
-        print (timeStamp)
+        print (timeStamp, button)
+        WriteLog.writeInCSV(timeStamp, button, "B")
+
+    def writeInCSV(timestamp, event, operator):
+        row = [timestamp, event, operator]
+
+        if os.path.isfile("1.csv"):
+            # convert list to string
+            convertedRow = ','.join(map(str, row))
+            participantFile = open("1.csv", 'a', newline="")  # open file in append mode
+            participantFile.write(convertedRow)  # write row to csv
+            participantFile.write('\r\n')  # write new line
+        # if participant file not exists
+        else:
+            # create file
+            with open("1.csv", 'w', newline="") as participantFile:
+                participantFile.write('# Log created at ' + str(datetime.datetime.now()))  # created at row
+                participantFile.write('\r\n')  # write new line
+
+                write = csv.writer(participantFile, delimiter=',')  # create csv write on file
+                data = [row]  # set data: header and row
+                write.writerows(data)  # write rows
 
 if __name__ == '__main__':
     log = WriteLog()
