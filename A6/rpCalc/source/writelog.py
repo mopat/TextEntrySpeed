@@ -13,17 +13,15 @@ class WriteLog:
         self.keyStrokeTimestamps = keyStrokeTimestamps
 
 
-
-
     def keystroke(self, oldTimestamp, timeStamp, key):
         print ("key:" + key)
-
-        print (oldTimestamp, timeStamp)
+        tNew = timeStamp
+        tOld = oldTimestamp
+        d = tNew - tOld
+        print (d)
 
     def buttonpress(button):
         print ("button:" + button)
-
-
 
 if __name__ == '__main__':
     log = WriteLog()

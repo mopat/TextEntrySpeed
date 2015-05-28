@@ -14,7 +14,7 @@
 
 import sys
 import os.path
-import datetime
+from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 try:
     from __main__ import __version__, __author__, helpFilePath, iconPath
@@ -73,7 +73,7 @@ class CalcDlg(QtWidgets.QWidget):
         self.popupMenu.addAction('&About rpCalc', self.about)
         self.popupMenu.addSeparator()
         self.popupMenu.addAction('&Quit', self.close)
-        self.oldTimestamp = 0
+        self.oldTimestamp = datetime.now()
         topLay = QtWidgets.QVBoxLayout(self)
         self.setLayout(topLay)
         topLay.setSpacing(4)
@@ -495,7 +495,7 @@ class CalcDlg(QtWidgets.QWidget):
     def keyPressEvent(self, keyEvent):
         """Event handler for keys - checks for numbers and typed commands.
         """
-        timeStamp = datetime.datetime.now()
+        timeStamp = datetime.now()
         WriteLog.keystroke(self, self.oldTimestamp, timeStamp, keyEvent.text())
         self.oldTimestamp = timeStamp
         button = self.mainDict.get(keyEvent.key())
