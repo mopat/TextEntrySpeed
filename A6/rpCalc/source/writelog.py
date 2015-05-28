@@ -8,8 +8,8 @@ class WriteLog:
     def __init__(self):
         print ("create csv")
 
-    def keystroke(self):
-        print ("key:")
+    def keystroke(key):
+        print ("key:" + key)
 
     def buttonpress(button):
         print ("button:" + button)
