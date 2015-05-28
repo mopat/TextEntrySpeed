@@ -9,15 +9,14 @@ class WriteLog:
 
     def __init__(self):
         print ("create csv")
-        keyStrokeTimestamps = []
-        self.keyStrokeTimestamps = keyStrokeTimestamps
 
 
-    def keystroke(self,timeStamp, key):
+    def keystroke(self, timeStamp, key):
         print ("key:" + key)
         print (timeStamp)
 
     def buttonpress(self, timeStamp, button):
+
         print ("button:" + button)
         print (timeStamp)
 
