@@ -73,7 +73,6 @@ class CalcDlg(QtWidgets.QWidget):
         self.popupMenu.addAction('&About rpCalc', self.about)
         self.popupMenu.addSeparator()
         self.popupMenu.addAction('&Quit', self.close)
-        self.oldTimestamp = datetime.now()
         topLay = QtWidgets.QVBoxLayout(self)
         self.setLayout(topLay)
         topLay.setSpacing(4)
@@ -496,8 +495,7 @@ class CalcDlg(QtWidgets.QWidget):
         """Event handler for keys - checks for numbers and typed commands.
         """
         timeStamp = datetime.now()
-        WriteLog.keystroke(self, self.oldTimestamp, timeStamp, keyEvent.text())
-        self.oldTimestamp = timeStamp
+        WriteLog.keystroke(self, timeStamp, keyEvent.text())
         button = self.mainDict.get(keyEvent.key())
         if not self.entryStr and button:
             button.clickEvent()

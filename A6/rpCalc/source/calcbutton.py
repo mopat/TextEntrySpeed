@@ -14,6 +14,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from writelog import WriteLog
+from datetime import datetime
 
 class CalcButton(QtWidgets.QPushButton):
     """Calculator button class - size change & emits clicked text signal.
@@ -30,7 +31,8 @@ class CalcButton(QtWidgets.QPushButton):
     def clickEvent(self):
         """Emits signal with button text.
         """
-        WriteLog.buttonpress(self.text())
+        timeStamp = datetime.now()
+        WriteLog.buttonpress(self, timeStamp, self.text())
         self.activated.emit(self.text())
 
     def sizeHint(self):

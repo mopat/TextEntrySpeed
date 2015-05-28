@@ -13,16 +13,13 @@ class WriteLog:
         self.keyStrokeTimestamps = keyStrokeTimestamps
 
 
-    def keystroke(self, oldTimestamp, timeStamp, key):
+    def keystroke(self,timeStamp, key):
         print ("key:" + key)
-        tNew = timeStamp
-        tOld = oldTimestamp
-        d = tNew - tOld
-        tDiffInMs = d.seconds * 1000 + d.microseconds / 1000
-        print (tDiffInMs)
+        print (timeStamp)
 
-    def buttonpress(button):
+    def buttonpress(self, timeStamp, button):
         print ("button:" + button)
+        print (timeStamp)
 
 if __name__ == '__main__':
     log = WriteLog()
