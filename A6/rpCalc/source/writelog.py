@@ -8,24 +8,21 @@ import os
 
 class WriteLog:
 
-    def __init__(self):
-        print ("create csv")
-
-
-    def keystroke(self, timeStamp, key):
+    def keystroke(timeStamp, key):
         print ("key:" + key)
         print (timeStamp)
         print (timeStamp, key)
         WriteLog.writeInCSV(timeStamp, key, "K")
         #ölol
 
-    def buttonpress(self, timeStamp, button):
+    def buttonpress(timeStamp, button):
 
         print ("button:" + button)
         print (timeStamp, button)
         WriteLog.writeInCSV(timeStamp, button, "B")
 
     def writeInCSV(timestamp, event, operator):
+        CSVHEADER = ["timestamp", "event", "operator"]
         row = [timestamp, event, operator]
 
         if os.path.isfile("1.csv"):
@@ -42,8 +39,6 @@ class WriteLog:
                 participantFile.write('\r\n')  # write new line
 
                 write = csv.writer(participantFile, delimiter=',')  # create csv write on file
-                data = [row]  # set data: header and row
+                data = [CSVHEADER, row]  # set data: header and row
                 write.writerows(data)  # write rows
 
-if __name__ == '__main__':
-    log = WriteLog()

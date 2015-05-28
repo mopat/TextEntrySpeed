@@ -496,7 +496,7 @@ class CalcDlg(QtWidgets.QWidget):
         """Event handler for keys - checks for numbers and typed commands.
         """
         timeStamp = datetime.now()
-        WriteLog.keystroke(self, timeStamp, keyEvent.text())
+        WriteLog.keystroke(timeStamp, keyEvent.text())
         button = self.mainDict.get(keyEvent.key())
         if not self.entryStr and button:
             button.clickEvent()

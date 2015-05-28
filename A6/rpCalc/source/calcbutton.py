@@ -33,7 +33,7 @@ class CalcButton(QtWidgets.QPushButton):
         """
         #test
         timeStamp = datetime.now()
-        WriteLog.buttonpress(self, timeStamp, self.text())
+        WriteLog.buttonpress(timeStamp, self.text())
         self.activated.emit(self.text())
 
     def sizeHint(self):
