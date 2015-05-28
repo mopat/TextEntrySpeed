@@ -14,6 +14,7 @@
 
 import sys
 import os.path
+import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 try:
     from __main__ import __version__, __author__, helpFilePath, iconPath
@@ -72,6 +73,7 @@ class CalcDlg(QtWidgets.QWidget):
         self.popupMenu.addAction('&About rpCalc', self.about)
         self.popupMenu.addSeparator()
         self.popupMenu.addAction('&Quit', self.close)
+        self.oldTimestamp = 0
         topLay = QtWidgets.QVBoxLayout(self)
         self.setLayout(topLay)
         topLay.setSpacing(4)
@@ -453,7 +455,6 @@ class CalcDlg(QtWidgets.QWidget):
     def textEntry(self, ch):
         """Searches for button match from text entry.
         """
-
         if not ch:
             return False
         if ord(ch) == 8:   # backspace key
@@ -494,7 +495,9 @@ class CalcDlg(QtWidgets.QWidget):
     def keyPressEvent(self, keyEvent):
         """Event handler for keys - checks for numbers and typed commands.
         """
-        WriteLog.keystroke(keyEvent.text())
+        timeStamp = datetime.datetime.now()
+        WriteLog.keystroke(self, self.oldTimestamp, timeStamp, keyEvent.text())
+        self.oldTimestamp = timeStamp
         button = self.mainDict.get(keyEvent.key())
         if not self.entryStr and button:
             button.clickEvent()
