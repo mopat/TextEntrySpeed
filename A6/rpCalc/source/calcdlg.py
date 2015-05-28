@@ -24,6 +24,7 @@ except ImportError:
 from calccore import CalcCore, Mode
 from calclcd import Lcd, LcdBox
 from calcbutton import CalcButton
+from writelog import WriteLog
 import extradisplay
 import altbasedialog
 import optiondlg
@@ -452,6 +453,7 @@ class CalcDlg(QtWidgets.QWidget):
     def textEntry(self, ch):
         """Searches for button match from text entry.
         """
+
         if not ch:
             return False
         if ord(ch) == 8:   # backspace key
@@ -492,6 +494,7 @@ class CalcDlg(QtWidgets.QWidget):
     def keyPressEvent(self, keyEvent):
         """Event handler for keys - checks for numbers and typed commands.
         """
+        #WriteLog.keystroke(self)
         button = self.mainDict.get(keyEvent.key())
         if not self.entryStr and button:
             button.clickEvent()
