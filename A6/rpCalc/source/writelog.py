@@ -18,7 +18,8 @@ class WriteLog:
         tNew = timeStamp
         tOld = oldTimestamp
         d = tNew - tOld
-        print (d)
+        tDiffInMs = d.seconds * 1000 + d.microseconds / 1000
+        print (tDiffInMs)
 
     def buttonpress(button):
         print ("button:" + button)
