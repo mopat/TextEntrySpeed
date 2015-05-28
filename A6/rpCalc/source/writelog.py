@@ -14,6 +14,7 @@ class WriteLog:
     def keystroke(self, timeStamp, key):
         print ("key:" + key)
         print (timeStamp)
+        #ölol
 
     def buttonpress(self, timeStamp, button):
 
