@@ -193,6 +193,25 @@ class CalcDlg(QtWidgets.QWidget):
         self.updateEntryLabel('rpCalc Version {0}'.format(__version__))
         QtCore.QTimer.singleShot(5000, self.updateEntryLabel)
 
+        if(len(sys.argv) == 1):
+            print("Restart calculator and add one of these arguments:")
+            print("1: measure keystroke time (K)")
+            print("2: measure buttonclick time (B)")
+            print("3: measure pointing time (P)")
+            print("4: measure hand from keyboard to mouse or vice versa time (H)")
+        else:
+            print("Task " + str(sys.argv[1]) + " selected:")
+            print(self.getChosenOperator())
+
+    def getChosenOperator(self):
+        taskInfo = {
+            "1": "measure keystroke time (K)",
+            "2": "measure buttonclick time (B)",
+            "3": "measure pointing time (P)",
+            "4": "measure hand from keyboard to mouse or vice versa time (H)"
+        }
+        return taskInfo[str(sys.argv[1])]
+
     def updateEntryLabel(self, subsText=''):
         """Set entry & status label text, use entryStr or subsText, options.
         """
