@@ -205,8 +205,8 @@ class CalcDlg(QtWidgets.QWidget):
 
     def getChosenOperator(self):
         taskInfo = {
-            "1": "measure keystroke time (K): ten strokes of '1' key on notebook 10k",
-            "2": "measure buttonclick time  (B): ten clicks of '1' button in the RPN calculator 10b",
+            "1": "measure keystroke time (K): twenty strokes of '1' key on notebook 20k",
+            "2": "measure buttonclick time  (B): twenty clicks of '1' button in the RPN calculator 20b",
             "3": "measure pointing time (P): press key '1' and '1' button in rpn calculator ten times in turn -> before measured buttonpress time will be subtracted pbpbpbpbpbpbpbpbpbpb",
             "4": "measure hand from keyboard to mouse or vice versa time (H): press '1' on button in the calculator and key ten times in turn -> before measured buttonpress and keystroke time will be subtracted bkbkbkbkbkbkbkbkbkbk"
         }
