@@ -1,9 +1,7 @@
 The performance of which type of user can be predicted by KLM, according to Card et al.?
+
 According to Card et al. KLM can predict the performance of expert users, because the performance must be error-free and the task must be routine.
 
 Which Fitts’ Law formulation is used by Card et al.?
-Card et. al say that
-This operator represents the action of moving the
-mouse to point the cursor to a desired place on the screen. The actual time required can be determined from Fitts'
-law. For typical situations, it ranges from .8 to 1.5 sec, with an average of 1.1 sec. If great accuracy is not required,
-or the movement distances or target sizes are not unusual, this average can be used instead of more precise times.
+
+Card et. al say that this operator represents the action of moving the mouse to point the cursor to a desired place on the screen. The actual time required can be determined from Fitts' law. For typical situations, it ranges from .8 to 1.5 sec, with an average of 1.1 sec. If great accuracy is not required, or the movement distances or target sizes are not unusual, this average can be used instead of more precise times.
