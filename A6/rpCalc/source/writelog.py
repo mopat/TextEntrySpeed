@@ -6,24 +6,38 @@ import csv
 import os
 from datetime import datetime
 
-class WriteLog:
-
-
-
-    def keystroke(timeStamp, key):
+# class to write log to stdout and csv if needed
+class WriteLog(object):
+    # log data to stdout and/or csv file
+    # "C
+    # k" is for keystroke
+    def keystroke(self, timeStamp, key):
+        # set file name
         fileName = WriteLog.fileName(WriteLog)
-        WriteLog.writeInCSV(timeStamp, key, "K", fileName)
-        row = [timeStamp, key, "K"]
+        # check if filename exists
+        if (fileName != None):
+            WriteLog.writeInCSV(timeStamp, key, "K", fileName)
+        # log data to stdout
+        log = str(timeStamp) + ", " + key + ", " + "C"
+        sys.stdout.write(log)
         sys.stdout.write('\n')
 
-    def buttonpress(timeStamp, button):
+    # log data to stdout and/or csv file
+    # "C" is for click
+    def buttonpress(self, timeStamp, button):
+        # set file name
         fileName = WriteLog.fileName(WriteLog)
-        WriteLog.writeInCSV(timeStamp, button, "C", fileName)
-        row = [timeStamp, button, "C"]
-        sys.stdout.write(str(row))
+        # check if filename exists
+        if (fileName != None):
+            WriteLog.writeInCSV(timeStamp, button, "C", fileName)
+        # log data to stdout
+        log = str(timeStamp) + ", " + button + ", " + "C"
+        sys.stdout.write(log)
         sys.stdout.write('\n')
 
+    # set csv filename when paramater exists
     def fileName(self):
+        # different file names to know which task has been conducted
         fileName = {
             "1": "keystroketime(K)",
             "2": "buttonclicktime(B)",
@@ -31,21 +45,21 @@ class WriteLog:
             "4": "deviceswitching(H)"
         }
         if(len(sys.argv) > 1):
-            return fileName[str(sys.argv[1])]
+            return fileName[str(sys.argv[1])]  # return file name when paramater exists
         else:
-            return "log"
+            return None  # return None
 
-    def writeInCSV(timestamp, event, operator, fileName):
-        CSVHEADER = ["timestamp", "eventtext", "operator"]
-        row = [timestamp, event, operator]
-        csvFileName = fileName + ".csv"
+    # write csv log file
+    def writeInCSV(self, timestamp, event, operator, fileName):
+        CSVHEADER = ["timestamp", "eventtext", "operator"]  # csv header
+        row = [timestamp, event, operator]  # row to save in file
+        csvFileName = fileName + ".csv"  # create full file name
         if os.path.isfile(csvFileName):
             # convert list to string
             convertedRow = ','.join(map(str, row))
             participantFile = open(csvFileName, 'a', newline="")  # open file in append mode
             participantFile.write(convertedRow)  # write row to csv
             participantFile.write('\r\n')  # write new line
-            row = []
         # if participant file not exists
         else:
             # create file
@@ -56,4 +70,3 @@ class WriteLog:
                 write = csv.writer(participantFile, delimiter=',')  # create csv write on file
                 data = [CSVHEADER, row]  # set data: header and row
                 write.writerows(data)  # write rows
-                row = []

@@ -33,8 +33,10 @@ class CalcButton(QtWidgets.QPushButton):
         """
         # prevent logging when key is pressed
         if(origin != "K"):
+            # write time and event to WriteLog
             timeStamp = datetime.now()
-            WriteLog.buttonpress(timeStamp, self.text())
+            WriteLog.buttonpress(WriteLog(), timeStamp, self.text())
+
         self.activated.emit(self.text())
 
     def sizeHint(self):

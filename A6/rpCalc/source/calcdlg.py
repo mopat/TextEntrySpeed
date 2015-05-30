@@ -193,8 +193,9 @@ class CalcDlg(QtWidgets.QWidget):
         self.updateEntryLabel('rpCalc Version {0}'.format(__version__))
         QtCore.QTimer.singleShot(5000, self.updateEntryLabel)
 
+        # info for user to write log file
         if(len(sys.argv) == 1):
-            print("Restart calculator and add one of these arguments:")
+            print("Restart calculator and add one of these arguments if you want to write a log file:")
             print("1: measure keystroke time (K)")
             print("2: measure buttonclick time (B)")
             print("3: measure pointing time (P)")
@@ -203,6 +204,7 @@ class CalcDlg(QtWidgets.QWidget):
             print("Task " + str(sys.argv[1]) + " selected:")
             print(self.getChosenOperator())
 
+    # python dictionary
     def getChosenOperator(self):
         taskInfo = {
             "1": "measure keystroke time (K): twenty strokes of '1' key on notebook 20k",
@@ -514,8 +516,9 @@ class CalcDlg(QtWidgets.QWidget):
     def keyPressEvent(self, keyEvent):
         """Event handler for keys - checks for numbers and typed commands.
         """
+        # write time and event to WriteLog
         timeStamp = datetime.now()
-        WriteLog.keystroke(timeStamp, keyEvent.text())
+        WriteLog.keystroke(WriteLog(), timeStamp, keyEvent.text())
 
         button = self.mainDict.get(keyEvent.key())
         if not self.entryStr and button:
