@@ -12,15 +12,15 @@ class KlmCalculator:
             "p": 1.1,
             "b": 0.10,
             "h": 0.40,
-            "m": 1.2
+            "m": 1.20
         }
-        # own values
+        # own values rounded
         ownOperators = {
-            "k": 0.192991,
-            "p": 0.928450,
-            "b": 0.152912,
-            "h": 0.304982,
-            "m": 1.1
+            "k": 0.19,
+            "p": 0.93,
+            "b": 0.15,
+            "h": 0.30,
+            "m": 1.20
         }
         # set operators to object
         self.CMNKOperators = CMNKOperators
