@@ -17,9 +17,9 @@ class KlmCalculator:
         # own values
         ownOperators = {
             "k": 0.192991,
-            "p": 0.817563,
+            "p": 0.928450,
             "b": 0.152912,
-            "h": 0.220448,
+            "h": 0.304982,
             "m": 1.1
         }
         # set operators to object
