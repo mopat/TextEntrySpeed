@@ -5,3 +5,7 @@ According to Card et al. KLM can predict the performance of expert users, becaus
 Which Fitts’ Law formulation is used by Card et al.?
 
 Card et. al say that this operator represents the action of moving the mouse to point the cursor to a desired place on the screen. The actual time required can be determined from Fitts' law. For typical situations, it ranges from .8 to 1.5 sec, with an average of 1.1 sec. If great accuracy is not required, or the movement distances or target sizes are not unusual, this average can be used instead of more precise times.
+
+Why might the original KLM not perfectly model input performance on a laptop? How could it be adapted?
+
+Usually you operate a notebook via it's integrated touchpad, not with conventional mouse. Due to the position and the different handling of the integrated touchpad, the estimated times for the operators "B", "P", "H" and "D" could vary compared to the traditional ones. To solve this problem, specific touchpad times for these operators could be adapted due to experiments.
