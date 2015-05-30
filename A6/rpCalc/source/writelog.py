@@ -13,11 +13,15 @@ class WriteLog:
     def keystroke(timeStamp, key):
         fileName = WriteLog.fileName(WriteLog)
         WriteLog.writeInCSV(timeStamp, key, "K", fileName)
-
+        row = [timeStamp, key, "K"]
+        sys.stdout.write('\n')
 
     def buttonpress(timeStamp, button):
         fileName = WriteLog.fileName(WriteLog)
         WriteLog.writeInCSV(timeStamp, button, "C", fileName)
+        row = [timeStamp, button, "C"]
+        sys.stdout.write(str(row))
+        sys.stdout.write('\n')
 
     def fileName(self):
         fileName = {
@@ -26,8 +30,10 @@ class WriteLog:
             "3": "pointingtime(P)",
             "4": "deviceswitching(H)"
         }
-
-        return fileName[str(sys.argv[1])]
+        if(len(sys.argv) > 1):
+            return fileName[str(sys.argv[1])]
+        else:
+            return "log"
 
     def writeInCSV(timestamp, event, operator, fileName):
         CSVHEADER = ["timestamp", "eventtext", "operator"]
