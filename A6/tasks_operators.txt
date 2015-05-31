@@ -1,0 +1,18 @@
+# add keys 1-20 with mouse
+BPBPBPBPBPBPBPBPBPB # add numbers 1-5
+PBPBPBPBPBPBPBPBPBPBPB # add numbers 6-10
+PBBPBPBPBPBPBPBPBPBPBPBPBPBPBPBPBPB # add numbers 11-16
+PBPBPBPBPBPBPBPBPBPBPBPB # add numbers 17-20
+
+# add keys 1-20 with keyboard
+21K # add numbers 1-10
+30K # add numbers 11-20
+
+# calculate sqrt(3^2 + 4^2) with mouse
+BPBPBPB # 3 ENT 3 *
+PBPBPBPBPB # + 4 ENT 4 *
+PBPB # + sqrt
+
+# calculate sqrt(3^2 + 4^2) with keyboard
+11K # 11 keytrokes
+4K # s q r t

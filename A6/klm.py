@@ -17,7 +17,7 @@ class KlmCalculator(object):
         # own values rounded
         ownOperators = {
             "k": 0.19,
-            "p": 0.93,
+            "p": 0.55,
             "b": 0.15,
             "h": 0.30,
             "m": 1.20
