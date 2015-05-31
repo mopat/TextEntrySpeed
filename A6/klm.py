@@ -25,10 +25,15 @@ class KlmCalculator:
         # set operators to object
         self.CMNKOperators = CMNKOperators
         self.ownOperators = ownOperators
-        # split lines, extract important data and calculate
-        self.splitLines()
-        self.extractKlmShort()
-        self.calculate()
+        # check if argument exists
+        if (len(sys.argv) > 1):
+            # split lines, extract important data and calculate
+            self.splitLines()
+            self.extractKlmShort()
+            self.calculate()
+        else:
+            # print info for needed argument
+            print ("Please add filename as argument!")
 
     # split lines
     def splitLines(self):
