@@ -521,8 +521,12 @@ class CalcDlg(QtWidgets.QWidget):
         """Event handler for keys - checks for numbers and typed commands.
         """
         # write time and event to WriteLog
+        if (keyEvent.text() == "\n" or keyEvent.text() == "\r" or keyEvent.text() == "\r\n"):
+            keyText = "ENT"
+        else:
+            keyText = keyEvent.text()
         timeStamp = datetime.now()
-        WriteLog.keystroke(WriteLog(), timeStamp, keyEvent.text())
+        WriteLog.keystroke(WriteLog(), timeStamp, keyText)
 
         button = self.mainDict.get(keyEvent.key())
         if not self.entryStr and button:
