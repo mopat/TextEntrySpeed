@@ -8,7 +8,7 @@ class KlmCalculator(object):
     def __init__(self):
         # operator values of Card, Moran, Newell and Kieras
         CMNKOperators = {
-            "k": 0.28,
+            "k": 0.20,
             "p": 1.1,
             "b": 0.10,
             "h": 0.40,
