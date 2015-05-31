@@ -2,3 +2,15 @@ task1 - measure keystroke time (K): twenty strokes of "1" key on notebook 20k
 task2 - measure buttonclick time  (B): twenty clicks of "1" button in the RPN calculator 20b
 task3 - measure pointing time (P): click "1" and "3" button in rpn calculator ten times in turn -> before measured buttonpress time will be subtracted pbpbpbpbpbpbpbpbpbpb
 task4 - measure hand frkom keyboard to mouse or vice versa time (H): press number "1" on button and key ten times in turn -> before measured buttonpress and keystroke time will be subtracted bkbkbkbkbkbkbkbkbkbk
+
+sqrt task
+2015-05-31 14:01:20.187272, 3, C
+2015-05-31 14:01:22.251435, ENT, C
+2015-05-31 14:01:22.779421, 3, C
+2015-05-31 14:01:23.563389, *, C
+2015-05-31 14:01:24.683440, +, C
+2015-05-31 14:01:25.635313, 4, C
+2015-05-31 14:01:26.394771, ENT, C
+2015-05-31 14:01:27.075283, 4, C
+2015-05-31 14:01:27.892356, *, C
+2015-05-31 14:01:28.532417, +, C

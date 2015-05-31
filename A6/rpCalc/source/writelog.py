@@ -16,7 +16,7 @@ class WriteLog(object):
         fileName = WriteLog.fileName(WriteLog)
         # check if filename exists
         if (fileName != None):
-            WriteLog.writeInCSV(timeStamp, key, "K", fileName)
+            WriteLog.writeInCSV(self, timeStamp, key, "K", fileName)
         # log data to stdout
         log = str(timeStamp) + ", " + key + ", " + "C"
         sys.stdout.write(log)
@@ -29,7 +29,7 @@ class WriteLog(object):
         fileName = WriteLog.fileName(WriteLog)
         # check if filename exists
         if (fileName != None):
-            WriteLog.writeInCSV(timeStamp, button, "C", fileName)
+            WriteLog.writeInCSV(self, timeStamp, button, "C", fileName)
         # log data to stdout
         log = str(timeStamp) + ", " + button + ", " + "C"
         sys.stdout.write(log)
@@ -44,8 +44,10 @@ class WriteLog(object):
             "3": "pointingtime(P)",
             "4": "deviceswitching(H)"
         }
-        if(len(sys.argv) > 1):
+        if (len(sys.argv) > 1 and str(sys.argv[1]) in fileName.values()):
             return fileName[str(sys.argv[1])]  # return file name when paramater exists
+        elif (len(sys.argv) > 1):
+            return str(sys.argv[1])  # create own filename
         else:
             return None  # return None
 

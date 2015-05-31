@@ -195,11 +195,12 @@ class CalcDlg(QtWidgets.QWidget):
 
         # info for user to write log file
         if(len(sys.argv) == 1):
-            print("Restart calculator and add one of these arguments if you want to write a log file:")
+            print("Restart calculator and add one of these arguments if you want to write a csv log file:")
             print("1: measure keystroke time (K)")
             print("2: measure buttonclick time (B)")
             print("3: measure pointing time (P)")
             print("4: measure hand from keyboard to mouse or vice versa time (H)")
+            print("Else: A different file with your argument as filename")
         else:
             print("Task " + str(sys.argv[1]) + " selected:")
             print(self.getChosenOperator())
@@ -207,12 +208,15 @@ class CalcDlg(QtWidgets.QWidget):
     # python dictionary
     def getChosenOperator(self):
         taskInfo = {
-            "1": "measure keystroke time (K): twenty strokes of '1' key on notebook 20k",
-            "2": "measure buttonclick time  (B): twenty clicks of '1' button in the RPN calculator 20b",
-            "3": "measure pointing time (P): press key '1' and '1' button in rpn calculator ten times in turn -> before measured buttonpress time will be subtracted pbpbpbpbpbpbpbpbpbpb",
-            "4": "measure hand from keyboard to mouse or vice versa time (H): press '1' on button in the calculator and key ten times in turn -> before measured buttonpress and keystroke time will be subtracted bkbkbkbkbkbkbkbkbkbk"
+            "1": "measure keystroke time (K): twenty strokes of '1' key on notebook",
+            "2": "measure buttonclick time  (B): twenty clicks of '1' button in the RPN calculator",
+            "3": "measure pointing time (P): press key '1' and '+' button in rpn calculator ten times in turn",
+            "4": "measure hand from keyboard to mouse or vice versa time (H): press '1' on button in the calculator and key ten times in turn"
         }
-        return taskInfo[str(sys.argv[1])]
+        if (sys.argv[1] in taskInfo.values()):
+            return taskInfo[str(sys.argv[1])]
+        else:
+            return sys.argv[1]
 
     def updateEntryLabel(self, subsText=''):
         """Set entry & status label text, use entryStr or subsText, options.
