@@ -4,7 +4,7 @@
 import sys
 
 
-class KlmCalculator:
+class KlmCalculator(object):
     def __init__(self):
         # operator values of Card, Moran, Newell and Kieras
         CMNKOperators = {
